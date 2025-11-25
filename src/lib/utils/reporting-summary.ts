@@ -62,28 +62,40 @@ export class ReportingSummary {
       
       const rowsSummaryModel = rentalItems.reduce((acc, item) => {
         
-        // set the period as the key e.g. "2022-01"
-        const key = `${item.period}`;
-        if (!acc[key]) acc[key] = this.createEmptyRowModel(item.period);
-        
-        // update totals and item detail for the category subtype
-        acc[key].items[item.subType].amountInGbp += item.amountAllocationInGpb;
-        acc[key].items[item.subType].amountInEur += item.amountAllocationInEur;
-        acc[key].items[item.subType].identifiers.push(item.identifier);
-        
-        // update totals and item detail for the whole period/row
-        if (item.type === ReportingSummary.INCOME){
-          acc[key].totalIncome.amountInGbp += item.amountAllocationInGpb;
-          acc[key].totalIncome.amountInEur += item.amountAllocationInEur;
-          acc[key].totalIncome.identifiers.push(item.identifier);
+        try {
+          
+          // dont care about tax or ignore items
+          if (item.type == "Tax" || item.type == "Ignore") return acc;
+          
+          // set the period as the key e.g. "2022-01"
+          const key = `${item.period}`;
+          if (!acc[key]) acc[key] = this.createEmptyRowModel(item.period);
+          
+
+          // update totals and item detail for the category subtype
+          acc[key].items[item.subType].amountInGbp += item.amountAllocationInGpb;
+          acc[key].items[item.subType].amountInEur += item.amountAllocationInEur;
+          acc[key].items[item.subType].identifiers.push(item.identifier);
+          
+          // update totals and item detail for the whole period/row
+          if (item.type === ReportingSummary.INCOME){
+            acc[key].totalIncome.amountInGbp += item.amountAllocationInGpb;
+            acc[key].totalIncome.amountInEur += item.amountAllocationInEur;
+            acc[key].totalIncome.identifiers.push(item.identifier);
+          }
+          else if (item.type === ReportingSummary.EXPENSE){
+            acc[key].totalExpenses.amountInGbp += item.amountAllocationInGpb;
+            acc[key].totalExpenses.amountInEur += item.amountAllocationInEur;
+            acc[key].totalExpenses.identifiers.push(item.identifier);
+          }    
+          
+          return acc;
+
+        } catch (e) {
+          
+          console.error(`Error processing item ${item.identifier}:`, e);
+          return acc;
         }
-        else if (item.type === ReportingSummary.EXPENSE){
-          acc[key].totalExpenses.amountInGbp += item.amountAllocationInGpb;
-          acc[key].totalExpenses.amountInEur += item.amountAllocationInEur;
-          acc[key].totalExpenses.identifiers.push(item.identifier);
-        }    
-        
-        return acc;
         
       }, {} as Record<string, RowModel>);
       

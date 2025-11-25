@@ -80,13 +80,21 @@ export interface RowModel {
   totalExpenses: ItemDetail;
 }
 
-export function getTaxYearFilterValues(): string[] {
-  let values: string[] = [];
+export interface ValueLabel {
+  value: string;
+  label: string;
+}
+
+export function getTaxYearFilterValues(): ValueLabel[] {
+  let valuesLabels: ValueLabel[] = [];
   const currentYear = new Date().getFullYear();
-  // french
   for (let year = 2022; year <= currentYear; year++) {
-     values.push(`FR: ${year}`);
-     values.push(`UK: ${year}-${year + 1}`);
+      valuesLabels.push({ value: `UK:${year}-${year + 1}`, label: `UK tax year ${year}-${year + 1}`});
   }
-  return values;
+
+  for (let year = 2022; year <= currentYear; year++) {
+      valuesLabels.push({ value: `FR:${year}`, label: `FR tax year ${year}` });
+  }
+
+  return valuesLabels;
 }
