@@ -117,5 +117,11 @@
   }
   body {
     @apply bg-background text-foreground;
+     font-family: 'Inter', sans-serif;
+  }
+
+  /* Keep monospace text unaffected */
+  :not(.font-mono) {
+    font-family: 'Inter', sans-serif;
   }
 }
