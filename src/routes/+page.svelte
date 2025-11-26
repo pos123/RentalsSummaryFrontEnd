@@ -185,19 +185,19 @@
 				<!-- Period Breakdown Table -->
 				{#if modelData.periodBreakdownData && modelData.header}
 					<div class="rounded-md border">
-						<Table.Root class="text-base">
+						<Table.Root class="text-sm">
 							<Table.Header>
 								<Table.Row>
-									<Table.Head class="text-center w-[100px] border-r font-bold">Period</Table.Head>
+									<Table.Head class="text-center w-[100px] border-r">Period</Table.Head>
 									{#each modelData.header as header}
-										<Table.Head class="text-center border-r last:border-r-0 font-bold">{header.replace(' and ', ' & ')}</Table.Head>
+										<Table.Head class="text-center border-r last:border-r-0">{header.replace(' and ', ' & ')}</Table.Head>
 									{/each}
 								</Table.Row>
 							</Table.Header>
 							<Table.Body>
 								{#each Object.values(modelData.periodBreakdownData).sort((a, b) => a.period.localeCompare(b.period)) as row}
 									<Table.Row>
-										<Table.Cell class="text-center font-medium border-r">{row.period}</Table.Cell>
+										<Table.Cell class="text-center  border-r">{row.period}</Table.Cell>
 										{#each modelData.header as header}
 											<Table.Cell class="text-center border-r last:border-r-0 p-0">
 												{#if row.items[header] && (currency === 'EUR' ? Math.abs(row.items[header].amountInEur) : Math.abs(row.items[header].amountInGbp)) >= 0.01}
