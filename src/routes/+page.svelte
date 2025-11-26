@@ -5,13 +5,17 @@
 
 
   	import { Cable, Play, Loader2, BarChart3 } from '@lucide/svelte';
-	import { Button } from '$lib/components/ui/button/index.js';
-	import { Label } from '$lib/components/ui/label/index.js';
-	import * as Card from '$lib/components/ui/card/index.js';
-	import * as Select from "$lib/components/ui/select/index.js";
-
-	
-	let taxYearSelection: string = $state("")
+  	import { Button } from '$lib/components/ui/button/index.js';
+  	import { Label } from '$lib/components/ui/label/index.js';
+  	import * as Card from '$lib/components/ui/card/index.js';
+  	import * as Select from "$lib/components/ui/select/index.js";
+  	import { Switch } from "$lib/components/ui/switch/index.js";
+  	import * as Table from "$lib/components/ui/table/index.js";
+  	import { formatItemDetail } from '@/utils/common';
+  	import type { ItemDetail } from '@/utils/common';
+  
+  	
+  	let taxYearSelection: string = $state("")
 	const triggerTaxYearContent = $derived(
 		getTaxYearFilterValues().find((f) => f.value === taxYearSelection)?.label ?? "Select a tax year"
 	);
@@ -21,6 +25,23 @@
 
 	let modelData: SummaryModel = $state({} as SummaryModel);
 	let isGenerating: boolean = $state(false);
+	let isEur = $state(false);
+	let currency: 'GBP' | 'EUR' = $derived(isEur ? 'EUR' : 'GBP');
+
+	function getNetIncome(income: ItemDetail | undefined, expenses: ItemDetail | undefined): ItemDetail {
+		return {
+			amountInGbp: (income?.amountInGbp ?? 0) - (expenses?.amountInGbp ?? 0),
+			amountInEur: (income?.amountInEur ?? 0) - (expenses?.amountInEur ?? 0),
+			identifiers: []
+		};
+	}
+
+	function formatCell(item: ItemDetail | undefined, curr: 'GBP' | 'EUR') {
+		if (!item) return '';
+		const val = curr === 'EUR' ? item.amountInEur : item.amountInGbp;
+		if (Math.abs(val) < 0.01) return '';
+		return formatItemDetail(item, curr, true);
+	}
 
 	const handleClick = async () => {
 		isGenerating = true;
@@ -121,13 +142,80 @@
 
 	{#if taxYearSelection !== "" && modelData.success}
 		<Card.Root class="w-full rounded-sm mt-4 transition-opacity duration-300 {isGenerating ? 'opacity-0' : 'opacity-100'}">
-			<Card.Header>
+			<Card.Header class="flex flex-row items-center justify-between">
 				<Card.Title class="flex items-center gap-2">
 					<BarChart3 size={16} /> Summary
 				</Card.Title>
+				<div class="flex items-center space-x-2">
+					<Label for="currency-mode">GBP</Label>
+					<Switch id="currency-mode" bind:checked={isEur} />
+					<Label for="currency-mode">EUR</Label>
+				</div>
 			</Card.Header>
 			<Card.Content>
-				<!-- Summary content will go here -->
+				
+				<!-- Headline Figures -->
+				<div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+					<div class="p-4 border rounded-lg bg-muted/20">
+						<div class="text-sm font-medium text-muted-foreground mb-1">Total Income</div>
+						<div class="text-2xl font-bold text-green-600">
+							{formatItemDetail(modelData.totalIncome!, currency, true)}
+						</div>
+					</div>
+					<div class="p-4 border rounded-lg bg-muted/20">
+						<div class="text-sm font-medium text-muted-foreground mb-1">Total Expenses</div>
+						<div class="text-2xl font-bold text-red-600">
+							{formatItemDetail(modelData.totalExpenses!, currency, true)}
+						</div>
+					</div>
+					<div class="p-4 border rounded-lg bg-muted/20">
+						<div class="text-sm font-medium text-muted-foreground mb-1">Total Net Income</div>
+						<div class="text-2xl font-bold">
+							{formatItemDetail(getNetIncome(modelData.totalIncome, modelData.totalExpenses), currency, true)}
+						</div>
+					</div>
+				</div>
+
+				<!-- Period Breakdown Table -->
+				{#if modelData.periodBreakdownData && modelData.header}
+					<div class="rounded-md border">
+						<Table.Root>
+							<Table.Header>
+								<Table.Row>
+									<Table.Head class="text-center w-[100px] border-r">Period</Table.Head>
+									{#each modelData.header as header}
+										<Table.Head class="text-center border-r last:border-r-0">{header.replace(' and ', ' & ')}</Table.Head>
+									{/each}
+								</Table.Row>
+							</Table.Header>
+							<Table.Body>
+								{#each Object.values(modelData.periodBreakdownData).sort((a, b) => a.period.localeCompare(b.period)) as row}
+									<Table.Row>
+										<Table.Cell class="text-center font-medium border-r">{row.period}</Table.Cell>
+										{#each modelData.header as header}
+											<Table.Cell class="text-center border-r last:border-r-0">
+												{formatCell(row.items[header], currency)}
+											</Table.Cell>
+										{/each}
+									</Table.Row>
+								{/each}
+							</Table.Body>
+							<Table.Footer>
+								<Table.Row>
+									<Table.Cell class="text-center font-bold border-r">Total</Table.Cell>
+									{#each modelData.header as header}
+										<Table.Cell class="text-center font-bold border-r last:border-r-0">
+											{#if modelData.categorySummaryData}
+												{formatCell(modelData.categorySummaryData[header], currency)}
+											{/if}
+										</Table.Cell>
+									{/each}
+								</Table.Row>
+							</Table.Footer>
+						</Table.Root>
+					</div>
+				{/if}
+
 			</Card.Content>
 		</Card.Root>
 	{/if}
