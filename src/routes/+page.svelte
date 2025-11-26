@@ -4,7 +4,7 @@
 	import { getTaxYearFilterValues } from '@/utils/common';
 
 
-  	import { Cable, Play, Loader2, BarChart3 } from '@lucide/svelte';
+  	import { Cable, Play, Loader2, BarChart3, Package } from '@lucide/svelte';
   	import { Button } from '$lib/components/ui/button/index.js';
   	import { Label } from '$lib/components/ui/label/index.js';
   	import * as Card from '$lib/components/ui/card/index.js';
@@ -188,9 +188,9 @@
 						<Table.Root class="text-base">
 							<Table.Header>
 								<Table.Row>
-									<Table.Head class="text-center w-[100px] border-r">Period</Table.Head>
+									<Table.Head class="text-center w-[100px] border-r font-bold">Period</Table.Head>
 									{#each modelData.header as header}
-										<Table.Head class="text-center border-r last:border-r-0">{header.replace(' and ', ' & ')}</Table.Head>
+										<Table.Head class="text-center border-r last:border-r-0 font-bold">{header.replace(' and ', ' & ')}</Table.Head>
 									{/each}
 								</Table.Row>
 							</Table.Header>
@@ -208,20 +208,20 @@
 														<Popover.Content class="w-auto p-0">
 															<div class="grid gap-4">
 																<div class="space-y-2">
-																	<h4 class="font-medium leading-none p-4 pb-0">Items</h4>
+																	<h4 class="font-medium leading-none p-4 pb-0 flex items-center gap-2"><Package size={16} />Items</h4>
 																	<Table.Root>
 																		<Table.Header>
 																			<Table.Row>
-																				<Table.Head>Property</Table.Head>
-																				<Table.Head>Date</Table.Head>
-																				<Table.Head>Description</Table.Head>
-																				<Table.Head class="text-right">Amount (GBP)</Table.Head>
+																				<Table.Head class="font-bold">Property</Table.Head>
+																				<Table.Head class="font-bold">Date</Table.Head>
+																				<Table.Head class="font-bold">Description</Table.Head>
+																				<Table.Head class="text-right font-bold">Amount (GBP)</Table.Head>
 																			</Table.Row>
 																		</Table.Header>
 																		<Table.Body>
 																			{#each getRentalItems(row.items[header].identifiers) as item}
 																				<Table.Row>
-																					<Table.Cell>{item.property}</Table.Cell>
+																					<Table.Cell>{item.property.toLowerCase()}</Table.Cell>
 																					<Table.Cell>{item.date.toLocaleDateString()}</Table.Cell>
 																					<Table.Cell>{item.description}</Table.Cell>
 																					<Table.Cell class="text-right">
