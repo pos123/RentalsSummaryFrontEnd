@@ -45,7 +45,7 @@ export class ReportingSummary {
         // header categories
         header: this.getCategoryList(),
         // period breakdown and category summary data
-        periodBreakdownData: this.getPeriodBreakdownData(rentalItemsFiltered),
+        periodBreakdownData: this.getPeriodBreakdownData(rentalItemsFiltered, parameters),
         categorySummaryData: this.getCategoryBreakdownData(rentalItemsFiltered),
         // map of rental items by identifier
         rentalItemMap: this.getRentalItemMap(rentalItemsFiltered)
@@ -58,7 +58,7 @@ export class ReportingSummary {
     }
   }
     
-  private getPeriodBreakdownData(rentalItems: RentalItem[]) : Record<string, RowModel> {
+  private getPeriodBreakdownData(rentalItems: RentalItem[], parameters: ModelParameters) : Record<string, RowModel> {
       
       const rowsSummaryModel = rentalItems.reduce((acc, item) => {
         
@@ -68,6 +68,10 @@ export class ReportingSummary {
           const key = `${item.period}`;
           if (!acc[key]) acc[key] = this.createEmptyRowModel(item.period);
           
+          if (item.property === "CHIPPENHAM" && parameters.chippenhamAllocation === 0 )
+            return acc;
+          if (item.property === "MEADOWCROFT" && parameters.meadowcroftAllocation === 0 )
+            return acc;
 
           // update totals and item detail for the category subtype
           acc[key].items[item.subType].amountInGbp += item.amountAllocationInGpb;
