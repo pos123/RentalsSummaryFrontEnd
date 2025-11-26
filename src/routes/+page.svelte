@@ -101,7 +101,11 @@
 					</Select.Content>
 				</Select.Root>
 
-				<Button onclick={handleClick} disabled={taxYearSelection === "" || isGenerating} class="bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed">
+				<Button onclick={handleClick} disabled={taxYearSelection === "" || 
+														(chippenhamAllocation === "0" && meadowcroftAllocation === "0") 
+														|| isGenerating } 
+														class="bg-green-600 text-white hover:bg-green-700 
+														disabled:opacity-50 disabled:cursor-not-allowed">
 					{#if isGenerating}
 						<Loader2 size={16} class="animate-spin" />
 						Summarising data... 
