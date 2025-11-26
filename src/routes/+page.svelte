@@ -29,6 +29,14 @@
 	let isEur = $state(false);
 	let currency: 'GBP' | 'EUR' = $derived(isEur ? 'EUR' : 'GBP');
 
+	$effect(() => {
+		console.log('Chippenham allocation changed to:', chippenhamAllocation);
+		console.log('Meadowcroft allocation changed to:', meadowcroftAllocation);
+		console.log('Tax year changed to:', taxYearSelection);
+		modelData = {} as SummaryModel;
+	});
+
+
 	function getNetIncome(income: ItemDetail | undefined, expenses: ItemDetail | undefined): ItemDetail {
 		return {
 			amountInGbp: (income?.amountInGbp ?? 0) - (expenses?.amountInGbp ?? 0),
@@ -261,5 +269,3 @@
 		</Card.Root>
 	{/if}
 </div>
-
-<!-- <Button class="text-xs" onclick={handleClick}>Click me now</Button> -->
