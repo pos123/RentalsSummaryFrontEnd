@@ -63,10 +63,7 @@ export class ReportingSummary {
       const rowsSummaryModel = rentalItems.reduce((acc, item) => {
         
         try {
-          
-          // dont care about tax or ignore items
-          if (item.type == "Tax" || item.type == "Ignore") return acc;
-          
+
           // set the period as the key e.g. "2022-01"
           const key = `${item.period}`;
           if (!acc[key]) acc[key] = this.createEmptyRowModel(item.period);

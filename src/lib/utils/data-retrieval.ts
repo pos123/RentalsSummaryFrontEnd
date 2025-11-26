@@ -24,7 +24,9 @@ export class DataRetrieval {
     const rentalDtos = rentalDtosResult.value;
     
     // map rental dtos to rental items
-    let data = new List<RentalDto>(rentalDtos).Select(item => ( {
+    let data = new List<RentalDto>(rentalDtos)
+      .Where(item => item.TYPE != "Tax" && item.SUBTYPE != "Ignore")
+      .Select(item => ( {
       
       // property name
       property: item.PROPERTY.toUpperCase(),

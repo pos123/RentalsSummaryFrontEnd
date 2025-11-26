@@ -104,10 +104,10 @@
 				<Button onclick={handleClick} disabled={taxYearSelection === "" || isGenerating} class="bg-green-600 text-white hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed">
 					{#if isGenerating}
 						<Loader2 size={16} class="animate-spin" />
-						Generating...
+						Summarising data... 
 					{:else}
 						<Play size={16} />
-						Generate
+						Summarise
 					{/if}
 				</Button>
 			</div>
