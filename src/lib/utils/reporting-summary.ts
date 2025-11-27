@@ -28,7 +28,7 @@ export class ReportingSummary {
       const searchPeriod: string = parameters.periodName.substring(3).trim();
       const rentalItemsFiltered = new List<RentalItem>(refreshResult.value).Where(item => {
         // if ALL then return everything
-        if (parameters.periodName === "ALL") return true;
+        if (parameters.periodName.startsWith("ALL")) return true;
         
         if (parameters.periodName.startsWith("UK:")) {
           return item.ukTaxYear === searchPeriod;
@@ -68,7 +68,11 @@ export class ReportingSummary {
         try {
 
           // set the period as the key e.g. "2022-01"
-          const key =  parameters.periodName.startsWith("ALL") ? `${item.period.substring(0, 4)}` : `${item.period}`;
+          //const key =  parameters.periodName.startsWith("ALL") ? `${item.period.substring(0, 4)}` : `${item.period}`;
+          let key = item.period;
+          if (parameters.periodName.startsWith("ALL_UK")) key = item.ukTaxYear.substring(0, 4)
+          if (parameters.periodName.startsWith("ALL_FR")) key = item.frTaxYear.substring(0, 4)
+          
           if (!acc[key]) acc[key] = this.createEmptyRowModel(key);
           
           if (item.property === "CHIPPENHAM" && parameters.chippenhamAllocation === 0 )

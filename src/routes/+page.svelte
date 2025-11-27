@@ -11,14 +11,14 @@
   	import * as Card from '$lib/components/ui/card/index.js';
   	import * as Select from "$lib/components/ui/select/index.js";
   	import { Switch } from "$lib/components/ui/switch/index.js";
-  	
+  
   	
   	let taxYearSelection: string = $state("")
 	const triggerTaxYearContent = $derived(
-	taxYearSelection === "ALL"
-		? "All years"
-		: getTaxYearFilterValues().find((f) => f.value === taxYearSelection)?.label ?? "Select a tax year"
-	);
+		taxYearSelection == "ALL_UK" ? "All UK years"
+			: taxYearSelection == "ALL_FR" ? "All FR years"
+			: getTaxYearFilterValues().find((f) => f.value === taxYearSelection)?.label ?? "Select a tax year"	
+		);
 
 	let chippenhamAllocation: string = $state("100");
 	let meadowcroftAllocation: string = $state("100");
@@ -93,7 +93,8 @@
 						<!-- Misc -->
 						<Select.Group>
 							<Select.Label>Misc</Select.Label>
-							<Select.Item value="ALL">All years</Select.Item>
+							<Select.Item value="ALL_UK">All UK years</Select.Item>
+							<Select.Item value="ALL_FR">All FR years</Select.Item>
 						</Select.Group>
 
 					</Select.Content>
