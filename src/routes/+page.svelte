@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { ReportingSummary } from '@/utils/reporting-summary';
-	import type { ModelParameters, SummaryModel, ValueLabel } from '@/utils/common';
+	import type { ModelParameters, SummaryModel } from '@/utils/common';
 	import { getTaxYearFilterValues } from '@/utils/common';
 	import PeriodBreakdownTable from '$lib/components/PeriodBreakdownTable.svelte';
 	import HeadlineFigures from '$lib/components/HeadlineFigures.svelte';
 
-  	import { Cable, Play, Loader2, BarChart3 } from '@lucide/svelte';
-  	import { Button } from '$lib/components/ui/button/index.js';
+  	import { Cable, Loader2, BarChart3 } from '@lucide/svelte';
   	import { Label } from '$lib/components/ui/label/index.js';
   	import * as Card from '$lib/components/ui/card/index.js';
   	import * as Select from "$lib/components/ui/select/index.js";
@@ -32,7 +31,14 @@
 		console.log('Chippenham allocation changed to:', chippenhamAllocation);
 		console.log('Meadowcroft allocation changed to:', meadowcroftAllocation);
 		console.log('Tax year changed to:', taxYearSelection);
-		modelData = {} as SummaryModel;
+		
+		// Auto-trigger the summary generation when inputs are valid
+		if (taxYearSelection !== "" &&
+			!(chippenhamAllocation === "0" && meadowcroftAllocation === "0")) {
+			handleClick();
+		} else {
+			modelData = {} as SummaryModel;
+		}
 	});
 
 
@@ -123,19 +129,13 @@
 					</Select.Content>
 				</Select.Root>
 
-				<Button onclick={handleClick} disabled={taxYearSelection === "" || 
-														(chippenhamAllocation === "0" && meadowcroftAllocation === "0") 
-														|| isGenerating } 
-														class="bg-green-600 text-white hover:bg-green-700 
-														disabled:opacity-50 disabled:cursor-not-allowed">
-					{#if isGenerating}
-						<Loader2 size={16} class="animate-spin" />
-						Summarising data... 
-					{:else}
-						<Play size={16} />
-						Summarise
-					{/if}
-				</Button>
+				<!-- Auto-generation progress indicator -->
+				{#if isGenerating}
+					<div class="flex items-center gap-2 h-10 px-4 bg-green-50 border border-green-200 rounded-sm -mt-0.5">
+						<Loader2 size={18} class="animate-spin text-green-600" />
+						<span class="text-sm font-medium text-green-700">Generating summary...</span>
+					</div>
+				{/if}
 			</div>
 
 		</Card.Content>
