@@ -13,7 +13,7 @@ export class DataRetrieval {
     '&useDefaultCurrentOnError=true';  
   private static URL_GET_RENTAL_DATA: string = 'https://rentaldata.fusionconnect.top/';
   private static CHIPPENHAM_PROPERTY_NAME: string = 'CHIPPENHAM';
-  private static START_YEAR: string = "2022";
+  private static START_YEAR: string = "2015";
   
   async refreshData(chippenhamAllocation: number, meadowcroftAllocation: number) : Promise<Result<RentalItem[]>> {
 

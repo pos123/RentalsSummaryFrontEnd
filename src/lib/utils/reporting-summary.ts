@@ -27,6 +27,9 @@ export class ReportingSummary {
       // 2. filter data based on tax year range    
       const searchPeriod: string = parameters.periodName.substring(3).trim();
       const rentalItemsFiltered = new List<RentalItem>(refreshResult.value).Where(item => {
+        // if ALL then return everything
+        if (parameters.periodName === "ALL") return true;
+        
         if (parameters.periodName.startsWith("UK:")) {
           return item.ukTaxYear === searchPeriod;
         } else {
@@ -65,8 +68,8 @@ export class ReportingSummary {
         try {
 
           // set the period as the key e.g. "2022-01"
-          const key = `${item.period}`;
-          if (!acc[key]) acc[key] = this.createEmptyRowModel(item.period);
+          const key =  parameters.periodName.startsWith("ALL") ? `${item.period.substring(0, 4)}` : `${item.period}`;
+          if (!acc[key]) acc[key] = this.createEmptyRowModel(key);
           
           if (item.property === "CHIPPENHAM" && parameters.chippenhamAllocation === 0 )
             return acc;

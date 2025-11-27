@@ -11,13 +11,13 @@
   	import * as Card from '$lib/components/ui/card/index.js';
   	import * as Select from "$lib/components/ui/select/index.js";
   	import { Switch } from "$lib/components/ui/switch/index.js";
-  	import { formatItemDetail } from '@/utils/common';
-  	import type { ItemDetail } from '@/utils/common';
-  
+  	
   	
   	let taxYearSelection: string = $state("")
 	const triggerTaxYearContent = $derived(
-		getTaxYearFilterValues().find((f) => f.value === taxYearSelection)?.label ?? "Select a tax year"
+	taxYearSelection === "ALL"
+		? "All years"
+		: getTaxYearFilterValues().find((f) => f.value === taxYearSelection)?.label ?? "Select a tax year"
 	);
 
 	let chippenhamAllocation: string = $state("100");
@@ -63,7 +63,7 @@
 			<Card.Title class="flex items-center gap-2">
         		<Cable size={16}/>Inputs
       		</Card.Title>
-			<Card.Description>provide tax year and allocation of meadowcroft and chippenham</Card.Description>
+			<Card.Description>provide period and allocation of chippenham and meadowcroft</Card.Description>
 		</Card.Header>
 		<Card.Content>
 			<div class="flex flex-wrap gap-4">
@@ -88,6 +88,12 @@
 									<Select.Item value={valueLabel.value}>{valueLabel.label}</Select.Item>
 								{/if}
 							{/each}
+						</Select.Group>
+						
+						<!-- Misc -->
+						<Select.Group>
+							<Select.Label>Misc</Select.Label>
+							<Select.Item value="ALL">All years</Select.Item>
 						</Select.Group>
 
 					</Select.Content>

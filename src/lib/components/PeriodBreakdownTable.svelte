@@ -23,6 +23,19 @@
 		if (!modelData.rentalItemMap) return [];
 		return identifiers.map(id => modelData.rentalItemMap![id]).filter(item => item !== undefined);
 	}
+
+	function getNetProfit(income: ItemDetail, expenses: ItemDetail): ItemDetail {
+		return {
+			amountInGbp: income.amountInGbp - expenses.amountInGbp,
+			amountInEur: income.amountInEur - expenses.amountInEur,
+			identifiers: []
+		};
+	}
+
+	function hasActivity(row: any): boolean {
+		// Check if there's any income or expenses in the period
+		return Math.abs(row.totalIncome.amountInGbp) >= 0.01 || Math.abs(row.totalExpenses.amountInGbp) >= 0.01;
+	}
 </script>
 
 {#if modelData.periodBreakdownData && modelData.header}
@@ -37,9 +50,42 @@
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
-				{#each Object.values(modelData.periodBreakdownData).sort((a, b) => a.period.localeCompare(b.period)) as row}
+				{#each Object.values(modelData.periodBreakdownData).sort((a, b) => a.period.localeCompare(b.period)).filter(row => hasActivity(row)) as row}
 					<Table.Row>
-						<Table.Cell class="text-center  border-r">{row.period}</Table.Cell>
+						<Table.Cell class="text-center border-r p-0">
+							<Popover.Root>
+								<Popover.Trigger class="w-full h-full p-2 hover:bg-muted/50">
+									{row.period}
+								</Popover.Trigger>
+								<Popover.Content class="w-80">
+									<div class="grid gap-3">
+										<div class="space-y-2">
+											<h4 class="font-medium leading-none mb-3">Period Summary</h4>
+											<div class="grid gap-2">
+												<div class="flex justify-between items-center">
+													<span class="text-sm text-muted-foreground">Total Income:</span>
+													<span class="text-sm font-semibold text-green-600">
+														{formatItemDetail(row.totalIncome, currency, true)}
+													</span>
+												</div>
+												<div class="flex justify-between items-center">
+													<span class="text-sm text-muted-foreground">Total Expenses:</span>
+													<span class="text-sm font-semibold text-red-600">
+														{formatItemDetail(row.totalExpenses, currency, true)}
+													</span>
+												</div>
+												<div class="border-t pt-2 flex justify-between items-center">
+													<span class="text-sm font-medium">Net Profit:</span>
+													<span class="text-sm font-bold">
+														{formatItemDetail(getNetProfit(row.totalIncome, row.totalExpenses), currency, true)}
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+								</Popover.Content>
+							</Popover.Root>
+						</Table.Cell>
 						{#each modelData.header as header}
 							<Table.Cell class="text-center border-r last:border-r-0 p-0">
 								{#if row.items[header] && (currency === 'EUR' ? Math.abs(row.items[header].amountInEur) : Math.abs(row.items[header].amountInGbp)) >= 0.01}
