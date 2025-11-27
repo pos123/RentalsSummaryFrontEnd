@@ -72,12 +72,9 @@ export class ReportingSummary {
       const rowsSummaryModel = rentalItems.reduce((acc, item) => {
         
         try {
-
-          // set the period as the key e.g. "2022-01"
-          //const key =  parameters.periodName.startsWith("ALL") ? `${item.period.substring(0, 4)}` : `${item.period}`;
           let key = item.period;
-          if (parameters.periodName.startsWith(ReportingSummary.ALL_UK)) key = item.ukTaxYear.substring(0, 4)
-          if (parameters.periodName.startsWith(ReportingSummary.ALL_FR)) key = item.frTaxYear.substring(0, 4)
+          if (parameters.periodName.startsWith(ReportingSummary.ALL_UK)) key = item.ukTaxYear
+          if (parameters.periodName.startsWith(ReportingSummary.ALL_FR)) key = item.frTaxYear
           
           if (!acc[key]) acc[key] = this.createEmptyRowModel(key);
           
