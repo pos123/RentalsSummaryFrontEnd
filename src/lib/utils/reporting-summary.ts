@@ -13,6 +13,12 @@ export class ReportingSummary {
   private static PROFESSIONAL_FEES: string = "Professional Fees";
   private static FINANCE_COSTS: string = "Finance costs";
   private static OTHER_EXPENSES: string = "Other Expenses";
+  private static ALL: string = "ALL";
+  private static UK: string = "UK:";
+  private static ALL_UK: string = "ALL_UK";
+  private static ALL_FR: string = "ALL_FR";
+  private static CHIPPENHAM: string = "CHIPPENHAM";
+  private static MEADOWCROFT: string = "MEADOWCROFT";
 
   
   public async getModelData(parameters: ModelParameters): Promise<SummaryModel> {
@@ -28,9 +34,9 @@ export class ReportingSummary {
       const searchPeriod: string = parameters.periodName.substring(3).trim();
       const rentalItemsFiltered = new List<RentalItem>(refreshResult.value).Where(item => {
         // if ALL then return everything
-        if (parameters.periodName.startsWith("ALL")) return true;
+        if (parameters.periodName.startsWith(ReportingSummary.ALL)) return true;
         
-        if (parameters.periodName.startsWith("UK:")) {
+        if (parameters.periodName.startsWith(ReportingSummary.UK)) {
           return item.ukTaxYear === searchPeriod;
         } else {
           return item.frTaxYear === searchPeriod;
@@ -70,14 +76,14 @@ export class ReportingSummary {
           // set the period as the key e.g. "2022-01"
           //const key =  parameters.periodName.startsWith("ALL") ? `${item.period.substring(0, 4)}` : `${item.period}`;
           let key = item.period;
-          if (parameters.periodName.startsWith("ALL_UK")) key = item.ukTaxYear.substring(0, 4)
-          if (parameters.periodName.startsWith("ALL_FR")) key = item.frTaxYear.substring(0, 4)
+          if (parameters.periodName.startsWith(ReportingSummary.ALL_UK)) key = item.ukTaxYear.substring(0, 4)
+          if (parameters.periodName.startsWith(ReportingSummary.ALL_FR)) key = item.frTaxYear.substring(0, 4)
           
           if (!acc[key]) acc[key] = this.createEmptyRowModel(key);
           
-          if (item.property === "CHIPPENHAM" && parameters.chippenhamAllocation === 0 )
+          if (item.property === ReportingSummary.CHIPPENHAM && parameters.chippenhamAllocation === 0 )
             return acc;
-          if (item.property === "MEADOWCROFT" && parameters.meadowcroftAllocation === 0 )
+          if (item.property === ReportingSummary.MEADOWCROFT && parameters.meadowcroftAllocation === 0 )
             return acc;
 
           // update totals and item detail for the category subtype

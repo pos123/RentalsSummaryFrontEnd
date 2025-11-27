@@ -15,8 +15,8 @@
   	
   	let taxYearSelection: string = $state("")
 	const triggerTaxYearContent = $derived(
-		taxYearSelection == "ALL_UK" ? "All UK years"
-			: taxYearSelection == "ALL_FR" ? "All FR years"
+		taxYearSelection == "ALL_UK" ? "All UK tax years"
+			: taxYearSelection == "ALL_FR" ? "All FR tax years"
 			: getTaxYearFilterValues().find((f) => f.value === taxYearSelection)?.label ?? "Select a tax year"	
 		);
 
@@ -93,8 +93,8 @@
 						<!-- Misc -->
 						<Select.Group>
 							<Select.Label>Misc</Select.Label>
-							<Select.Item value="ALL_UK">All UK years</Select.Item>
-							<Select.Item value="ALL_FR">All FR years</Select.Item>
+							<Select.Item value="ALL_UK">All UK tax years</Select.Item>
+							<Select.Item value="ALL_FR">All FR tax years</Select.Item>
 						</Select.Group>
 
 					</Select.Content>
