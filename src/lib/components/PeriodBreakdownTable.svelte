@@ -3,7 +3,7 @@
 	import { formatItemDetail } from '@/utils/common';
 	import * as Table from "$lib/components/ui/table/index.js";
 	import * as Popover from "$lib/components/ui/popover/index.js";
-	import { Package } from '@lucide/svelte';
+	import { Package, Calendar } from '@lucide/svelte';
 
 	interface Props {
 		modelData: SummaryModel;
@@ -60,7 +60,7 @@
 								<Popover.Content class="w-80">
 									<div class="grid gap-3">
 										<div class="space-y-2">
-											<h4 class="font-medium leading-none mb-3">Period Summary</h4>
+											<h4 class="font-medium leading-none mb-3 flex items-center gap-2"><Calendar size={16} />Period Summary</h4>
 											<div class="grid gap-2">
 												<div class="flex justify-between items-center">
 													<span class="text-sm text-muted-foreground">Total Income:</span>
@@ -93,11 +93,10 @@
 										<Popover.Trigger class="w-full h-full p-2 hover:bg-muted/50">
 											{formatCell(row.items[header], currency)}
 										</Popover.Trigger>
-										<Popover.Content class="w-auto p-0">
-											<div class="grid gap-4">
-												<div class="space-y-2">
-													<h4 class="font-medium leading-none p-4 pb-0 flex items-center gap-2"><Package size={16} />Items</h4>
-													<Table.Root>
+										<Popover.Content class="w-auto p-4">
+											<div class="space-y-3">
+												<h4 class="font-medium leading-none flex items-center gap-2"><Package size={16} />Items</h4>
+												<Table.Root>
 														<Table.Header>
 															<Table.Row>
 																<Table.Head class="font-bold">Property</Table.Head>
@@ -118,8 +117,7 @@
 																</Table.Row>
 															{/each}
 														</Table.Body>
-													</Table.Root>
-												</div>
+												</Table.Root>
 											</div>
 										</Popover.Content>
 									</Popover.Root>

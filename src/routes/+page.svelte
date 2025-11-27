@@ -67,7 +67,7 @@
 	<Card.Root class="w-full rounded-sm">
 		<Card.Header>
 			<Card.Title class="flex items-center gap-2">
-        		<Cable size={16}/>Inputs
+        		<Cable size={16} class="text-blue-600"/>Inputs
       		</Card.Title>
 			<Card.Description>provide period and allocation of chippenham and meadowcroft</Card.Description>
 		</Card.Header>
@@ -145,7 +145,7 @@
 		<Card.Root class="w-full rounded-sm mt-4 transition-opacity duration-300 {isGenerating ? 'opacity-0' : 'opacity-100'}">
 			<Card.Header class="flex flex-row items-center justify-between">
 				<Card.Title class="flex items-center gap-2">
-					<BarChart3 size={16} /> Summary
+					<BarChart3 size={16} class="text-purple-600" /> Summary
 				</Card.Title>
 				<div class="flex items-center space-x-2">
 					<Label for="currency-mode">GBP</Label>
