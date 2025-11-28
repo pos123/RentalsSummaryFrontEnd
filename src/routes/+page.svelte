@@ -148,9 +148,9 @@
 					<BarChart3 size={16} class="text-purple-600" /> Summary
 				</Card.Title>
 				<div class="flex items-center space-x-2">
-					<Label for="currency-mode">GBP</Label>
+					<Label for="currency-mode" class="text-lg">🇬🇧</Label>
 					<Switch id="currency-mode" bind:checked={isEur} />
-					<Label for="currency-mode">EUR</Label>
+					<Label for="currency-mode" class="text-lg">🇫🇷</Label>
 				</div>
 			</Card.Header>
 			<Card.Content>
