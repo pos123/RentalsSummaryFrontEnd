@@ -75,7 +75,7 @@
 													</span>
 												</div>
 												<div class="border-t pt-2 flex justify-between items-center">
-													<span class="text-sm font-medium">Net Income:</span>
+													<span class="text-sm font-medium">Net Income</span>
 													<span class="text-sm font-bold">
 														{formatItemDetail(getNetProfit(row.totalIncome, row.totalExpenses), currency, true)}
 													</span>
