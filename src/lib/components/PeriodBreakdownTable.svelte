@@ -63,19 +63,19 @@
 											<h4 class="font-medium leading-none mb-3 flex items-center gap-2"><Calendar size={16} />Period Summary</h4>
 											<div class="grid gap-2">
 												<div class="flex justify-between items-center">
-													<span class="text-sm text-muted-foreground">Total Income:</span>
+													<span class="text-sm text-muted-foreground">Total Income</span>
 													<span class="text-sm font-semibold text-green-600">
 														{formatItemDetail(row.totalIncome, currency, true)}
 													</span>
 												</div>
 												<div class="flex justify-between items-center">
-													<span class="text-sm text-muted-foreground">Total Expenses:</span>
+													<span class="text-sm text-muted-foreground">Total Expenses</span>
 													<span class="text-sm font-semibold text-red-600">
 														{formatItemDetail(row.totalExpenses, currency, true)}
 													</span>
 												</div>
 												<div class="border-t pt-2 flex justify-between items-center">
-													<span class="text-sm font-medium">Net Profit:</span>
+													<span class="text-sm font-medium">Net Income:</span>
 													<span class="text-sm font-bold">
 														{formatItemDetail(getNetProfit(row.totalIncome, row.totalExpenses), currency, true)}
 													</span>

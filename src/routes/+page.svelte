@@ -69,7 +69,7 @@
 			<Card.Title class="flex items-center gap-2">
         		<Cable size={16} class="text-blue-600"/>Inputs
       		</Card.Title>
-			<Card.Description>provide period and allocation of chippenham and meadowcroft</Card.Description>
+			<Card.Description>Choose period and allocation of chippenham and meadowcroft.</Card.Description>
 		</Card.Header>
 		<Card.Content>
 			<div class="flex flex-wrap gap-4">

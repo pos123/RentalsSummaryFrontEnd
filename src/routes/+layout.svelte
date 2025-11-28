@@ -48,10 +48,13 @@
 	.logo-text p {
 		margin: 0;
 		font-family: 'Inter', sans-serif;
-		font-size: 1.1rem;
+		font-size: 0.9rem;
 		font-weight: 600;
 		letter-spacing: 0.05em;
 		line-height: 1.2;
+		text-transform: uppercase;
+		text-shadow: 0 0 8px rgba(100, 116, 139, 0.15),
+		             0 0 4px rgba(100, 116, 139, 0.1);
 	}
 	
 	.glow {
