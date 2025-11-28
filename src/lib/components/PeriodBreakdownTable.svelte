@@ -39,19 +39,26 @@
 </script>
 
 {#if modelData.periodBreakdownData && modelData.header}
-	<div class="rounded-md border">
+	<div class="rounded-md border shadow-sm">
 		<Table.Root class="text-sm">
 			<Table.Header>
-				<Table.Row>
-					<Table.Head class="text-center w-[100px] border-r">Period</Table.Head>
+				<Table.Row class="bg-slate-50 hover:bg-slate-50">
+					<Table.Head class="text-center w-[120px] border-r font-semibold text-slate-700">
+						<div class="flex items-center justify-center gap-2">
+							<Calendar size={14} />
+							Period
+						</div>
+					</Table.Head>
 					{#each modelData.header as header}
-						<Table.Head class="text-center border-r last:border-r-0">{header.replace(' and ', ' & ')}</Table.Head>
+						<Table.Head class="text-center border-r last:border-r-0 font-semibold text-slate-700">
+							{header.replace(' and ', ' & ').replace(/([A-Z])/g, ' $1').trim()}
+						</Table.Head>
 					{/each}
 				</Table.Row>
 			</Table.Header>
 			<Table.Body>
-				{#each Object.values(modelData.periodBreakdownData).sort((a, b) => a.period.localeCompare(b.period)).filter(row => hasActivity(row)) as row}
-					<Table.Row>
+				{#each Object.values(modelData.periodBreakdownData).sort((a, b) => a.period.localeCompare(b.period)).filter(row => hasActivity(row)) as row, idx}
+					<Table.Row class="{idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/30'}">
 						<Table.Cell class="text-center border-r p-0">
 							<Popover.Root>
 								<Popover.Trigger class="w-full h-full p-2 hover:bg-muted/50">
@@ -128,10 +135,10 @@
 				{/each}
 			</Table.Body>
 			<Table.Footer>
-				<Table.Row>
-					<Table.Cell class="text-center font-bold border-r">Total</Table.Cell>
+				<Table.Row class="bg-slate-100 hover:bg-slate-100">
+					<Table.Cell class="text-center font-bold border-r text-slate-800">Total</Table.Cell>
 					{#each modelData.header as header}
-						<Table.Cell class="text-center font-bold border-r last:border-r-0">
+						<Table.Cell class="text-center font-bold border-r last:border-r-0 text-slate-800">
 							{#if modelData.categorySummaryData}
 								{formatCell(modelData.categorySummaryData[header], currency)}
 							{/if}
