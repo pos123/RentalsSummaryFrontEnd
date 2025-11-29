@@ -142,26 +142,29 @@
 	</Card.Root>
 
 	{#if taxYearSelection !== "" && modelData.success}
-		<Card.Root class="w-full rounded-sm mt-4 transition-opacity duration-300 {isGenerating ? 'opacity-0' : 'opacity-100'}">
-			<Card.Header class="flex flex-row items-center justify-between">
-				<Card.Title class="flex items-center gap-2">
-					<BarChart3 size={16} class="text-purple-600" /> Summary
-				</Card.Title>
+		<div class="mt-4 space-y-6 transition-all duration-500 {isGenerating ? 'opacity-50 scale-[0.99]' : 'opacity-100 scale-100'}">
+			<div class="flex items-center justify-between">
+				<h3 class="text-lg font-bold tracking-tight flex items-center gap-2">
+					<BarChart3 class="h-6 w-6 text-primary" />
+					Financial Summary
+				</h3>
 				<div class="flex items-center space-x-2">
 					<Label for="currency-mode" class="text-lg">🇬🇧</Label>
 					<Switch id="currency-mode" bind:checked={isEur} />
 					<Label for="currency-mode" class="text-lg">🇫🇷</Label>
 				</div>
-			</Card.Header>
-			<Card.Content>
-				
-				<!-- Headline Figures -->
-				<HeadlineFigures totalIncome={modelData.totalIncome!} totalExpenses={modelData.totalExpenses!} {currency} />
+			</div>
 
-				<!-- Period Breakdown Table -->
+			<!-- Headline Figures -->
+			<HeadlineFigures totalIncome={modelData.totalIncome!} totalExpenses={modelData.totalExpenses!} {currency} />
+
+			<!-- Period Breakdown Table -->
+			<div class="shadow-md rounded-lg overflow-hidden">
 				<PeriodBreakdownTable {modelData} {currency} />
-
-			</Card.Content>
-		</Card.Root>
+			</div>
+		</div>
 	{/if}
+
+
+
 </div>

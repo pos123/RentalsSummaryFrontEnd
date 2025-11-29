@@ -39,7 +39,7 @@
 </script>
 
 {#if modelData.periodBreakdownData && modelData.header}
-	<div class="rounded-md border shadow-sm">
+	<div class="rounded-md border shadow-sm overflow-hidden">
 		<Table.Root class="text-sm">
 			<Table.Header>
 				<Table.Row class="bg-slate-50 hover:bg-slate-50">
@@ -64,7 +64,7 @@
 								<Popover.Trigger class="w-full h-full p-2 hover:bg-muted/50">
 									{row.period}
 								</Popover.Trigger>
-								<Popover.Content class="w-80">
+								<Popover.Content class="w-80 shadow-lg">
 									<div class="grid gap-3">
 										<div class="space-y-2">
 											<h4 class="font-medium leading-none mb-3 flex items-center gap-2"><Calendar size={16} />Period Summary</h4>
@@ -100,31 +100,33 @@
 										<Popover.Trigger class="w-full h-full p-2 hover:bg-muted/50">
 											{formatCell(row.items[header], currency)}
 										</Popover.Trigger>
-										<Popover.Content class="w-auto p-4">
+										<Popover.Content class="w-auto p-4 shadow-lg">
 											<div class="space-y-3">
 												<h4 class="font-medium leading-none flex items-center gap-2"><Package size={16} />Items</h4>
-												<Table.Root>
-														<Table.Header>
-															<Table.Row>
-																<Table.Head class="font-bold">Property</Table.Head>
-																<Table.Head class="font-bold">Date</Table.Head>
-																<Table.Head class="font-bold">Description</Table.Head>
-																<Table.Head class="text-right font-bold">Amount (GBP)</Table.Head>
-															</Table.Row>
-														</Table.Header>
-														<Table.Body>
-															{#each getRentalItems(row.items[header].identifiers) as item}
+												<div class="max-h-[400px] overflow-y-auto">
+													<Table.Root>
+															<Table.Header>
 																<Table.Row>
-																	<Table.Cell>{item.property.toLowerCase()}</Table.Cell>
-																	<Table.Cell>{item.date.toLocaleDateString()}</Table.Cell>
-																	<Table.Cell>{item.description}</Table.Cell>
-																	<Table.Cell class="text-right">
-																		{item.amount.toLocaleString('en-GB', { style: 'currency', currency: 'GBP' })}
-																	</Table.Cell>
+																	<Table.Head class="font-bold">Property</Table.Head>
+																	<Table.Head class="font-bold">Date</Table.Head>
+																	<Table.Head class="font-bold">Description</Table.Head>
+																	<Table.Head class="text-right font-bold">Amount (GBP)</Table.Head>
 																</Table.Row>
-															{/each}
-														</Table.Body>
-												</Table.Root>
+															</Table.Header>
+															<Table.Body>
+																{#each getRentalItems(row.items[header].identifiers) as item}
+																	<Table.Row>
+																		<Table.Cell>{item.property.toLowerCase()}</Table.Cell>
+																		<Table.Cell>{item.date.toLocaleDateString()}</Table.Cell>
+																		<Table.Cell>{item.description}</Table.Cell>
+																		<Table.Cell class="text-right">
+																			{item.amount.toLocaleString('en-GB', { style: 'currency', currency: 'GBP' })}
+																		</Table.Cell>
+																	</Table.Row>
+																{/each}
+															</Table.Body>
+													</Table.Root>
+												</div>
 											</div>
 										</Popover.Content>
 									</Popover.Root>
