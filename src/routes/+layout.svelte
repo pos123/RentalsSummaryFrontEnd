@@ -1,7 +1,7 @@
 <script lang="ts">
 	import './layout.css';
 	import favicon from '$lib/assets/favicon.svg';
-	import { Building2 } from '@lucide/svelte';
+	import { Building2, BarChart3 } from '@lucide/svelte';
 	
 	let { children } = $props();
 </script>
@@ -13,14 +13,10 @@
 <!-- Header -->
 <div class="layout-header">
 	<div class="header-content">
-		<div class="logo-section">
-			<div class="glow">
-				<Building2 size={20}/>
-			</div>
-			<div class="logo-text text-foreground">
-				<p>Rental Summary</p>
-			</div>
-		</div>
+		<h3 class="glow text-lg font-bold tracking-tight flex items-center gap-2">
+			<BarChart3 class="glow h-6 w-6 text-primary" />
+			Financial Summary
+		</h3>
 	</div>
 </div>
 
@@ -38,25 +34,6 @@
 		padding-left: 1rem;
 	}
 
-	.logo-section {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-		padding-right: 1rem;
-	}
-
-	.logo-text p {
-		margin: 0;
-		font-family: 'Inter', sans-serif;
-		font-size: 0.9rem;
-		font-weight: 600;
-		letter-spacing: 0.05em;
-		line-height: 1.2;
-		text-transform: uppercase;
-		text-shadow: 0 0 8px rgba(100, 116, 139, 0.15),
-		             0 0 4px rgba(100, 116, 139, 0.1);
-	}
-	
 	.glow {
 		filter: drop-shadow(0 0 10px rgba(100, 116, 139, 0.4))
 	        drop-shadow(0 0 5px rgba(100, 116, 139, 0.25));

@@ -41,8 +41,6 @@
 		}
 	});
 
-
-
 	const handleClick = async () => {
 		isGenerating = true;
 		try {
@@ -64,17 +62,13 @@
 </script>
 
 <div class="w-full p-5">
-	<Card.Root class="w-full rounded-sm">
-		<Card.Header>
-			<Card.Title class="flex items-center gap-2">
-        		<Cable size={16} class="text-blue-600"/>Inputs
-      		</Card.Title>
-			<Card.Description>Choose period and allocation of chippenham and meadowcroft.</Card.Description>
-		</Card.Header>
-		<Card.Content>
-			<div class="flex flex-wrap gap-4">
-				<!-- tax year filter -->
-				<Select.Root type="single" name="taxYearSelection" bind:value={taxYearSelection} disabled={isGenerating}>
+	<div class="w-full rounded-lg border shadow-sm bg-white p-4">
+		<h2 class="flex items-center gap-2 text-base mb-3">
+			<Cable size={14} class="text-blue-600"/>Choose financial period and allocations of chippenham and meadowcroft
+		</h2>
+		<div class="flex flex-wrap gap-4">
+			<!-- tax year filter -->
+			<Select.Root type="single" name="taxYearSelection" bind:value={taxYearSelection} disabled={isGenerating}>
 					<Select.Trigger class="w-[200px]">
 						{triggerTaxYearContent}
 					</Select.Trigger>
@@ -129,6 +123,12 @@
 					</Select.Content>
 				</Select.Root>
 
+				<div class="flex items-center space-x-2">
+					<Label for="currency-mode" class="text-lg">🇬🇧</Label>
+					<Switch id="currency-mode" bind:checked={isEur} />
+					<Label for="currency-mode" class="text-lg">🇫🇷</Label>
+				</div>
+
 				<!-- Auto-generation progress indicator -->
 				{#if isGenerating}
 					<div class="flex items-center gap-2 h-10 px-4 bg-green-50 border border-green-200 rounded-sm -mt-0.5">
@@ -136,25 +136,11 @@
 						<span class="text-sm font-medium text-green-700">Generating summary...</span>
 					</div>
 				{/if}
-			</div>
-
-		</Card.Content>
-	</Card.Root>
+		</div>
+	</div>
 
 	{#if taxYearSelection !== "" && modelData.success}
 		<div class="mt-4 space-y-6 transition-all duration-500 {isGenerating ? 'opacity-50 scale-[0.99]' : 'opacity-100 scale-100'}">
-			<div class="flex items-center justify-between">
-				<h3 class="text-lg font-bold tracking-tight flex items-center gap-2">
-					<BarChart3 class="h-6 w-6 text-primary" />
-					Financial Summary
-				</h3>
-				<div class="flex items-center space-x-2">
-					<Label for="currency-mode" class="text-lg">🇬🇧</Label>
-					<Switch id="currency-mode" bind:checked={isEur} />
-					<Label for="currency-mode" class="text-lg">🇫🇷</Label>
-				</div>
-			</div>
-
 			<!-- Headline Figures -->
 			<HeadlineFigures totalIncome={modelData.totalIncome!} totalExpenses={modelData.totalExpenses!} {currency} />
 
