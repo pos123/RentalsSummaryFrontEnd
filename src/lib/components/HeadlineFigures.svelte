@@ -30,9 +30,6 @@
 <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
 	<div class="rounded-lg border border-green-200 bg-gradient-to-br from-green-50 to-white p-3 shadow-sm">
 		<div class="flex items-center gap-1.5 mb-0.5">
-			<div class="p-1 bg-green-100 rounded-full">
-				<ArrowUpRight size={14} class="text-green-600" />
-			</div>
 			<span class="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">Total Income</span>
 		</div>
 		<div class="text-xl font-bold text-green-700 tracking-tight">
@@ -42,9 +39,6 @@
 
 	<div class="rounded-lg border border-red-200 bg-gradient-to-br from-red-50 to-white p-3 shadow-sm">
 		<div class="flex items-center gap-1.5 mb-0.5">
-			<div class="p-1 bg-red-100 rounded-full">
-				<ArrowDownRight size={14} class="text-red-600" />
-			</div>
 			<span class="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">Total Expenses</span>
 		</div>
 		<div class="text-xl font-bold text-red-700 tracking-tight">
@@ -54,9 +48,6 @@
 
 	<div class="rounded-lg border border-blue-200 bg-gradient-to-br from-blue-50 to-white p-3 shadow-sm">
 		<div class="flex items-center gap-1.5 mb-0.5">
-			<div class="p-1 bg-blue-100 rounded-full">
-				<Wallet size={14} class="text-blue-600" />
-			</div>
 			<span class="text-[10px] font-semibold text-muted-foreground uppercase tracking-wide">Net Income</span>
 		</div>
 		<div class="text-xl font-bold tracking-tight {isPositive ? 'text-blue-700' : 'text-red-600'}">

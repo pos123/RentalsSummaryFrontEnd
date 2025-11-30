@@ -124,9 +124,9 @@
 				</Select.Root>
 
 				<div class="flex items-center space-x-2">
-					<Label for="currency-mode" class="text-lg">🇬🇧</Label>
+					<Label for="currency-mode" class="text-sm">GBP</Label>
 					<Switch id="currency-mode" bind:checked={isEur} />
-					<Label for="currency-mode" class="text-lg">🇫🇷</Label>
+					<Label for="currency-mode" class="text-sm">EUR</Label>
 				</div>
 
 				<!-- Auto-generation progress indicator -->
