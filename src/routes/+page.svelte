@@ -3,9 +3,10 @@
 	import type { ModelParameters, SummaryModel } from '@/utils/common';
 	import { getTaxYearFilterValues } from '@/utils/common';
 	import PeriodBreakdownTable from '$lib/components/PeriodBreakdownTable.svelte';
+	import SummaryBreakdownTable from '$lib/components/SummaryBreakdownTable.svelte';
 	import HeadlineFigures from '$lib/components/HeadlineFigures.svelte';
 
-  	import { Cable, Loader2, BarChart3 } from '@lucide/svelte';
+	 	import { Cable, Loader2, BarChart3 } from '@lucide/svelte';
   	import { Label } from '$lib/components/ui/label/index.js';
   	import * as Card from '$lib/components/ui/card/index.js';
   	import * as Select from "$lib/components/ui/select/index.js";
@@ -146,7 +147,11 @@
 
 			<!-- Period Breakdown Table -->
 			<div class="shadow-md rounded-lg overflow-hidden">
-				<PeriodBreakdownTable {modelData} {currency} />
+				{#if taxYearSelection === 'ALL_UK' || taxYearSelection === 'ALL_FR'}
+					<SummaryBreakdownTable {modelData} {currency} />
+				{:else}
+					<PeriodBreakdownTable {modelData} {currency} />
+				{/if}
 			</div>
 		</div>
 	{/if}

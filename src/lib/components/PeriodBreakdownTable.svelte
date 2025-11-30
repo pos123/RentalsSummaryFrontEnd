@@ -58,7 +58,7 @@
 			</Table.Header>
 			<Table.Body>
 				{#each Object.values(modelData.periodBreakdownData).sort((a, b) => a.period.localeCompare(b.period)).filter(row => hasActivity(row)) as row, idx}
-					<Table.Row class="{idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/30'}">
+					<Table.Row class={idx % 2 === 0 ? 'bg-white' : 'bg-slate-50/30'}>
 						<Table.Cell class="text-center border-r p-0">
 							<Popover.Root>
 								<Popover.Trigger class="w-full h-full p-2 hover:bg-muted/50">
